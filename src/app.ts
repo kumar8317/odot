@@ -5,11 +5,10 @@ import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-
-// Load environment variables
+import authRoutes from './routes/authRoutes';
+import taskRoutes from './routes/taskRoutes';
 dotenv.config();
 
-// Create Express app
 const app: Application = express();
 
 // Set up rate limiting
@@ -44,6 +43,9 @@ const connectDB = async () => {
 app.get('/', (req: Request, res: Response) => {
   res.send('Task Manager API is running');
 });
+
+app.use('/api/auth', authRoutes);
+app.use('/api/tasks', taskRoutes);
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
